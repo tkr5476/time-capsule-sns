@@ -6,11 +6,13 @@ WORKDIR /app
 ENV WATCHPACK_POLLING=true
 ENV CHOKIDAR_USEPOLLING=true
 
-COPY package*.json ./
+# frontendディレクトリ内のpackage.jsonをコピー
+COPY frontend/package*.json ./
 
 RUN npm install
 
-COPY . .
+# frontendディレクトリの内容をコピー
+COPY frontend/ .
 
 EXPOSE 3000
 

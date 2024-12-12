@@ -1,8 +1,6 @@
-FROM php:8.2-fpm
+FROM php:8.3-fpm
 
-WORKDIR /var/www/html
-
-# Install system dependencies
+# システムの依存関係をインストール
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -12,14 +10,26 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip
 
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install PHP extensions
+# PHPの拡張機能をインストール
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# Get latest Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Composerをインストール
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html
+# 作業ディレクトリを設定
+WORKDIR /var/www/html
+
+# ユーザーを作成
+RUN groupadd -g 1000 www
+RUN useradd -u 1000 -ms /bin/bash -g www www
+
+# 所有権を変更
+COPY --chown=www:www . /var/www/html
+
+# ユーザーを切り替え
+USER www
+
+# ポート9000を公開
+EXPOSE 9000
+
+CMD ["php-fpm"]

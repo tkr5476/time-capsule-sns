@@ -17,15 +17,16 @@ class CategorySeeder extends Seeder
             '仕事',
             '部活',
             '趣味',
-            '性格',
             '健康',
+            'マインド',
+            'give me',
             'その他',
         ];
-
         foreach ($categories as $category) {
-            Category::create(['name' => $category]);
+            Category::create([
+                'name' => $category,
+                'created_at' => now(),
+            ]);
         }
-
-        Category::factory(5)->create();
     }
 }
