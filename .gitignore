@@ -2,4 +2,7 @@
 /node_modules
 .env
 .env.backup
-.phpunit.result.cache 
+.phpunit.result.cache
+/storage/*.key
+/public/storage
+/public/hot
