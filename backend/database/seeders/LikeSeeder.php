@@ -10,19 +10,29 @@ class LikeSeeder extends Seeder
 {
     public function run(): void
     {
-        $users = User::all();
-        $posts = Post::all();
+        try {
+            \DB::beginTransaction();
 
-    foreach ($users as $user) {
-        $likeCount = rand(1, 5);
-        $likedPosts = $posts->random($likeCount);
+            $users = User::all();
+            $posts = Post::all();
 
-        foreach ($likedPosts as $post) {
-            $user->likes()->attach($post->id, [
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            foreach ($users as $user) {
+                $likeCount = rand(1, 5);
+                $likedPosts = $posts->random(min($likeCount, $posts->count()));
+
+                foreach ($likedPosts as $post) {
+                    $user->likes()->attach($post->id, [
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
+
+            \DB::commit();
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            \Log::error('LikeSeeder error: ' . $e->getMessage());
+            throw $e;
         }
-    }
     }
 }

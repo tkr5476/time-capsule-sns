@@ -7,22 +7,34 @@ use Illuminate\Database\Seeder;
 
 class FollowSeeder extends Seeder
 {
-public function run(): void
-{
-    $users = User::all();
+    public function run(): void
+    {
+        try {
+            \DB::beginTransaction();
 
-    foreach ($users as $user) {
-        $followCount = rand(5, 10);
-        $potentialFollowings = $users->except($user->id);
+            $users = User::all();
 
-        $followings = $potentialFollowings->random(min($followCount, $potentialFollowings->count()));
+            foreach ($users as $user) {
+                $potentialFollowings = $users->except($user->id);
+                $followCount = rand(5, 10);
 
-        foreach ($followings as $following) {
-            $user->following()->attach($following->id, [
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+                $followings = $potentialFollowings->random(
+                    min($followCount, $potentialFollowings->count())
+                );
+
+                foreach ($followings as $following) {
+                    $user->following()->attach($following->id, [
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
+
+            \DB::commit();
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            \Log::error('FollowSeeder error: ' . $e->getMessage());
+            throw $e;
         }
     }
-}
 }
