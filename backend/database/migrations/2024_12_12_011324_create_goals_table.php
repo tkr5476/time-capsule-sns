@@ -9,27 +9,25 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-    Schema::create('tasks', function (Blueprint $table) {
+public function up(): void
+{
+    Schema::create('goals', function (Blueprint $table) {
         $table->id();
         $table->foreignId('user_id')->constrained()->onDelete('cascade');
-        $table->foreignId('goal_id')->constrained()->onDelete('cascade');
+        $table->foreignId('category_id')->constrained()->onDelete('cascade');
         $table->string('title', 100);
         $table->string('description', 500)->nullable();
-        $table->datetime('due_date');
-        $table->unsignedSmallInteger('exp_points')->default(0);
-        $table->boolean('is_completed')->default(false);
-        $table->tinyInteger('visibility');
+        $table->datetime('target_date');
+        $table->foreignId('parent_goal_id')->nullable()->constrained('goals')->onDelete('set null');
         $table->timestamps();
     });
-    }
+}
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('goals');
     }
 };

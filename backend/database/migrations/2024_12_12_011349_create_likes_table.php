@@ -9,13 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('likes', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+public function up(): void
+{
+    Schema::create('likes', function (Blueprint $table) {
+        $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        $table->foreignId('post_id')->constrained()->onDelete('cascade');
+        $table->timestamp('created_at')->nullable();
+        $table->primary(['user_id', 'post_id']);
+    });
+}
 
     /**
      * Reverse the migrations.

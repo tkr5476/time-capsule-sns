@@ -1,3 +1,4 @@
+# Backend
 /vendor
 /node_modules
 .env
@@ -6,3 +7,10 @@
 /storage/*.key
 /public/storage
 /public/hot
+
+# Frontend
+/frontend/node_modules
+/frontend/.next
+/frontend/.env
+/frontend/.env.local
+/frontend/build
