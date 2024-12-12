@@ -15,7 +15,7 @@ public function up(): void
         $table->foreignId('follower_id')->constrained('users')->onDelete('cascade');
         $table->foreignId('following_id')->constrained('users')->onDelete('cascade');
         $table->boolean('is_following')->default(true);
-        $table->timestamp('created_at')->nullable();
+        $table->timestamps();
 
         $table->primary(['follower_id', 'following_id']);
     });

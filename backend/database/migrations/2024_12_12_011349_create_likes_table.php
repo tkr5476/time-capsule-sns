@@ -14,7 +14,7 @@ public function up(): void
     Schema::create('likes', function (Blueprint $table) {
         $table->foreignId('user_id')->constrained()->onDelete('cascade');
         $table->foreignId('post_id')->constrained()->onDelete('cascade');
-        $table->timestamp('created_at')->nullable();
+        $table->timestamps();
         $table->primary(['user_id', 'post_id']);
     });
 }
