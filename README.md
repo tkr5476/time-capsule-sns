@@ -257,19 +257,28 @@ MVP開発: 30時間
 ### フロントエンド（Next.js）構成
 ```
 frontend/
-├── src/
-│   ├── app/                    # App Router
-│   │   ├── (auth)/            # 認証必須ページ
-│   │   ├── layout.tsx         # 共通レイアウト
-│   │   └── page.tsx           # トップページ
-│   ├── components/            # 共通コンポーネント
-│   │   ├── elements/          # 基本UI要素
-│   │   └── layouts/           # レイアウト
-│   ├── features/              # 機能別モジュール
-│   │   ├── goals/
-│   │   ├── tasks/
-│   │   └── posts/
-│   └── lib/                   # ユーティリティ
+├── app/
+│   ├── (auth)/                    # 認証関連のルートグループ
+│   │   ├── login/
+│   │   │   └── page.tsx          # ログインページ
+│   │   └── register/
+│   │       └── page.tsx          # 登録ページ
+│   ├── (dashboard)/              # 認証後のルートグループ
+│   │   ├── layout.tsx            # ダッシュボードレイアウト
+│   │   └── page.tsx              # ホームページ
+│   └── layout.tsx                # ルートレイアウト
+├── components/
+│   ├── auth/
+│   │   ├── LoginForm.tsx
+│   │   └── RegisterForm.tsx
+│   └── ui/                       # 共通UIコンポーネント
+│       ├── Button.tsx
+│       └── Input.tsx
+├── lib/
+│   ├── axios.ts                  # APIクライアント設定
+│   └── auth.ts                   # 認証関連のユーティリティ
+└── types/
+    └── auth.ts                   # 認証関連の型定義
 ```
 
 ### バックエンド（Laravel）構成

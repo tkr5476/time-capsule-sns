@@ -16,3 +16,11 @@ Route::prefix('auth')->name('auth.')->group(function () {
         Route::get('/me', ProfileController::class)->name('me');
     });
 });
+
+// テスト用エンドポイントを追加
+Route::get('/test', function () {
+    return response()->json([
+        'message' => 'API接続テスト成功',
+        'timestamp' => now()
+    ]);
+});

@@ -9,6 +9,19 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory(30)->create();
+        if (!User::where('email', 'test@example.com')->exists()) {
+            User::factory()->create([
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+                'password' => bcrypt('password'),
+            ]);
+        }
+
+        $currentCount = User::count();
+
+        $needed = 30 - $currentCount;
+        if ($needed > 0) {
+            User::factory($needed)->create();
+        }
     }
 }
