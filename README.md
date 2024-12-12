@@ -20,8 +20,8 @@
 - フォロー/フォロワー管理
 
 ### 技術スタック
-- フロントエンド: Next.js 13+, TailwindCSS
-- バックエンド: Laravel 10, MySQL
+- フロントエンド: Next.js 14+, TailwindCSS
+- バックエンド: Laravel 11, MySQL
 - 認証: Laravel Sanctum
 - 開発環境: Docker, GitHub
 
