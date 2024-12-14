@@ -3,9 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/Top/topButton";
-import { Input } from "@/components/ui/Top/topInput";
-import { Label } from "@/components/ui/Top/topLabel";
+import { Button } from "@/Components/ui/Top/topButton";
+import { Input } from "@/Components/ui/Top/topInput";
+import { Label } from "@/Components/ui/Top/topLabel";
 
 export function LoginForm() {
   const router = useRouter();

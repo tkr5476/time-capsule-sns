@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/Top/topButton";
+import { Button } from "@/Components/ui/Top/topButton";
 
 export default function Page() {
   return (
