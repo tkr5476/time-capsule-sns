@@ -21,14 +21,14 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@types/*": ["./src/types/*"]
+      "@types/*": ["src/Types/*"]
     }
   },
   "include": [
     "next-env.d.ts",
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/types/**/*.d.ts",
+    "src/Types/**/*.d.ts",
     ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
