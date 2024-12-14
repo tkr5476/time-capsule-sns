@@ -3,31 +3,77 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --color-primary: 114, 218, 247;    /* #72daf7 - 水色 */
+  --color-secondary: 210, 247, 99;  /* #d2f763 - 黄緑 */
+  --color-accent: 250, 168, 35;     /* #faa823 - オレンジ */
+  --color-background: 117, 255, 244; /* #75fff4 - より明るい青 */
+  --color-text: 44, 62, 80;         /* そのまま */
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-text));
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white px-4 py-2 rounded-full font-semibold transition-colors;
+  }
+
+  .btn-primary:hover {
+    @apply opacity-80;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-text px-4 py-2 rounded-full font-semibold transition-colors;
+  }
+
+  .btn-secondary:hover {
+    @apply opacity-80;
+  }
+
+  .btn-accent {
+    @apply bg-accent text-white px-4 py-2 rounded-full font-semibold transition-colors;
+  }
+
+  .btn-accent:hover {
+    @apply opacity-80;
   }
 }
+
+
+
+/* 
+おそらくここは戻さないといけない
+スタイルが当たらないから変更したけどこのままだとダッシュボードのカスタムプロパティが機能しない
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: 114, 218, 247; 
+  --color-secondary: 210, 247, 99; 
+  --color-accent: 250, 168, 35;    
+  --color-background: 117, 255, 244; 
+  --color-text: 44, 62, 80;         
+}
+
+@layer base {
+  body {
+    @apply bg-background text-text;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary/80 px-4 py-2 rounded-full font-semibold transition-colors;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-text hover:bg-secondary/80 px-4 py-2 rounded-full font-semibold transition-colors;
+  }
+
+  .btn-accent {
+    @apply bg-accent text-white hover:bg-accent/80 px-4 py-2 rounded-full font-semibold transition-colors;
+  }
+} */

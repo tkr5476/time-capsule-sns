@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Top/topButton";
 import { Input } from "@/components/ui/Top/topInput";
 import { Label } from "@/components/ui/Top/topLabel";
 
-export function LoginForm() {
+export function RegisterForm() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -15,7 +15,7 @@ export function LoginForm() {
     event.preventDefault();
     setIsLoading(true);
 
-    // Add your login logic here
+    // Add your registration logic here
     setTimeout(() => {
       setIsLoading(false);
       router.push("/dashboard");
@@ -24,6 +24,18 @@ export function LoginForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-6">
+      <div className="space-y-2">
+        <Label htmlFor="username">ユーザーネーム</Label>
+        <Input
+          id="username"
+          placeholder="username"
+          type="text"
+          autoCapitalize="none"
+          autoCorrect="off"
+          disabled={isLoading}
+          required
+        />
+      </div>
       <div className="space-y-2">
         <Label htmlFor="email">メールアドレス</Label>
         <Input
@@ -42,15 +54,15 @@ export function LoginForm() {
         <Input id="password" type="password" disabled={isLoading} required />
       </div>
       <Button type="submit" disabled={isLoading} className="w-full">
-        {isLoading ? "ログイン中..." : "ログイン"}
+        {isLoading ? "登録中..." : "アカウント作成"}
       </Button>
       <div className="text-center text-sm">
-        <span className="text-gray-600">アカウントをお持ちでない方は</span>{" "}
+        <span className="text-gray-600">すでにアカウントをお持ちの方は</span>{" "}
         <Link
-          href="/register"
+          href="/login"
           className="text-cyan-600 hover:text-cyan-700 hover:underline"
         >
-          新規登録
+          ログイン
         </Link>
       </div>
     </form>
