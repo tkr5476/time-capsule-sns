@@ -1,9 +1,9 @@
-import React from 'react'
+import UserSearch from "./userSearch";
 
-export default function rightSideBar() {
+export default function RightSidebar() {
   return (
-    <div>
-      
+    <div className="w-80 p-4 space-y-8 bg-white rounded-lg shadow-lg">
+      <UserSearch />
     </div>
-  )
+  );
 }
