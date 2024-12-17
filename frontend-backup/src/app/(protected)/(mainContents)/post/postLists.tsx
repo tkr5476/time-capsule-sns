@@ -44,10 +44,12 @@ export default function PostList() {
         <div key={post.id} className="bg-white p-4 rounded-lg shadow">
           <div className="flex items-start mb-2">
             <div className="w-12 h-12 bg-gray-300 rounded-full mr-3 flex-shrink-0 overflow-hidden">
-              <img
+              <Image
                 src={`https://api.dicebear.com/6.x/initials/svg?seed=${post.user}`}
                 alt={`${post.user}'s avatar`}
                 className="w-full h-full object-cover"
+                width={48}
+                height={48}
               />
             </div>
             <div>

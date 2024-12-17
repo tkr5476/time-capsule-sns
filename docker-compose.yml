@@ -2,22 +2,22 @@ services:
   frontend:
     container_name: time-capsule-frontend
     build:
-      context: ./frontend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: docker/frontend/Dockerfile
     volumes:
       - ./frontend:/app
-      - /app/node_modules
+      # node_modulesの永続化を削除
     ports:
       - "3000:3000"
-    depends_on:
-      - backend
-    networks:
-      - time-capsule
     environment:
+      - WATCHPACK_POLLING=true
+      - CHOKIDAR_USEPOLLING=true
       - NEXTAUTH_URL=http://localhost:3000
       - NEXTAUTH_SECRET=your-secret-key-here
       - NEXT_PUBLIC_API_URL=http://localhost:8000/api
-    
+    networks:
+      - time-capsule
+
   backend:
     container_name: time-capsule-backend
     build:
