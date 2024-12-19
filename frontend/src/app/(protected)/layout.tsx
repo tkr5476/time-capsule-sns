@@ -1,5 +1,5 @@
-import { RightSideBar } from "./rightSideBar/rightSideBar";
-import { SideBar } from "./sideBar/sideBar";
+import RightSideBar from "./rightSideBar/rightSideBar";
+import SideBar from "./sideBar/sideBar";
 
 export default function ProtectedLayout() {
   return (
