@@ -2,7 +2,7 @@ import Sidebar from "@/components/protected/sideBar/sideBar";
 import RightSidebar from "@/components/protected/rightSideBar/rightSideBar";
 // import MobileNav from "@/components/protected/mobileNav/mobileNav";
 
-export default function RootLayout({
+export default function ProtectedLayout({
   children,
 }: {
   children: React.ReactNode;
