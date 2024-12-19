@@ -15,6 +15,19 @@ export function LoginForm() {
     event.preventDefault();
     setIsLoading(true);
 
+    try {
+      const res = fetch('http://localhost:8000/api/v1/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+    } catch {
+      console.log("不明エラーが発生しました。");
+      alert('ログインに失敗しました。再度お試しください。');
+    }
+
     // Add your login logic here
     setTimeout(() => {
       setIsLoading(false);

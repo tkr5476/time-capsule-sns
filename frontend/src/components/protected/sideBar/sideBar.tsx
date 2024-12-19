@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import Link from "next/link";
 import {
@@ -110,7 +112,7 @@ export default function SideBar() {
       <nav>
         <ul className="space-y-4">
           <SidebarItem href="/" icon={FaHome} text="ホーム" />
-          <SidebarItem href="/goals" icon={FaBullseye} text="����標" />
+          <SidebarItem href="/goals" icon={FaBullseye} text="目標" />
           <SidebarItem href="/tasks" icon={FaList} text="タスク" />
           <SidebarItem href="/profile" icon={FaUser} text="プロフィール" />
           <li>
