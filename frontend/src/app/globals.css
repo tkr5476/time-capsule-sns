@@ -3,19 +3,29 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-primary: rgb(114, 218, 247);   /* #72daf7 - 水色 */
+  --color-secondary: rgb(210, 247, 99);  /* #d2f763 - 黄緑 */
+  --color-accent: rgb(250, 168, 35);     /* #faa823 - オレンジ */
+  --color-background: rgb(117, 255, 244); /* #75fff4 - より明るい青 */
+  --color-text: rgb(44, 62, 80);         /* そのまま */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    @apply bg-background text-text;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary/80 px-4 py-2 rounded-full font-semibold transition-colors;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-text hover:bg-secondary/80 px-4 py-2 rounded-full font-semibold transition-colors;
+  }
+
+  .btn-accent {
+    @apply bg-accent text-white hover:bg-accent/80 px-4 py-2 rounded-full font-semibold transition-colors;
+  }
 }
