@@ -6,6 +6,8 @@ import Image from "next/image";
 
 export default function PostList() {
   const [posts, setPosts] = useState([
+  
+  // サーバーから取得した投稿データをここに追加
     {
       id: 1,
       user: "佐藤 花子",
