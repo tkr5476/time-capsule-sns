@@ -1,11 +1,15 @@
-import { Button } from "@mui/material";
+"use client";
 
-export default function posts() {
-  return(
-    <>
-      <h1>投稿コンテンツ</h1>
-      <Button variant="outlined" sx={{ color: "rgb(0, 127, 255)" }}>投稿する</Button>
-      <Button variant="outlined" sx={{ color: "rgb(127, 127, 255)" }}>投稿する</Button>
-    </>
+import Header from "@/components/protected/header";
+import PostForm from "@/components/protected/posts/postForm";
+import PostList from "@/components/protected/posts/postList";
+
+export default function Posts() {
+  return (
+    <div>
+      <Header title="HOME" subtitle="ホーム -みんなの投稿- " />
+      <PostForm />
+      <PostList />
+    </div>
   );
 }
