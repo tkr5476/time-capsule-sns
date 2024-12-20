@@ -111,7 +111,7 @@ export default function SideBar() {
       </h1>
       <nav>
         <ul className="space-y-4">
-          <SidebarItem href="/" icon={FaHome} text="ホーム" />
+          <SidebarItem href="/posts" icon={FaHome} text="ホーム" />
           <SidebarItem href="/goals" icon={FaBullseye} text="目標" />
           <SidebarItem href="/tasks" icon={FaList} text="タスク" />
           <SidebarItem href="/profile" icon={FaUser} text="プロフィール" />
