@@ -1,47 +1,33 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/topButton";
+import { useAuthForm } from "@/hooks/form/useAuthForm";
 import { Input } from "@/components/ui/topInput";
+import { Button } from "@/components/ui/topButton";
 import { Label } from "@/components/ui/topLabel";
+import Link from "next/link";
+import { LoginFormData } from "@/types/auth";
 
 export function LoginForm() {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const { formData, isLoading, error, handleChange, handleSubmit } =
+    useAuthForm("login");
 
-  async function onSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    setIsLoading(true);
-
-    try {
-      const res = fetch('http://localhost:8000/api/v1/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-    } catch {
-      console.log("不明エラーが発生しました。");
-      alert('ログインに失敗しました。再度お試しください。');
-    }
-
-    // Add your login logic here
-    setTimeout(() => {
-      setIsLoading(false);
-      router.push("/posts");
-    }, 1000);
-  }
+  const loginData = formData as LoginFormData;
 
   return (
-    <form onSubmit={onSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {error && (
+        <div className="p-3 text-sm text-red-500 bg-red-50 rounded">
+          {error}
+        </div>
+      )}
       <div className="space-y-2">
         <Label htmlFor="email">メールアドレス</Label>
         <Input
           id="email"
-          placeholder="example@example.com"
+          name="email"
+          value={loginData.email}
+          onChange={handleChange}
+          placeholder="name@example.com"
           type="email"
           autoCapitalize="none"
           autoComplete="email"
@@ -52,7 +38,15 @@ export function LoginForm() {
       </div>
       <div className="space-y-2">
         <Label htmlFor="password">パスワード</Label>
-        <Input id="password" type="password" disabled={isLoading} required />
+        <Input
+          id="password"
+          name="password"
+          value={loginData.password}
+          onChange={handleChange}
+          type="password"
+          disabled={isLoading}
+          required
+        />
       </div>
       <Button type="submit" disabled={isLoading} className="w-full">
         {isLoading ? "ログイン中..." : "ログイン"}
