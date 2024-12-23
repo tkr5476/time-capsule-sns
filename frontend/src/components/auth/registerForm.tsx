@@ -1,33 +1,32 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/topButton";
+import { useAuthForm } from "@/hooks/form/useAuthForm";
 import { Input } from "@/components/ui/topInput";
+import { Button } from "@/components/ui/topButton";
 import { Label } from "@/components/ui/topLabel";
+import Link from "next/link";
+import { RegisterFormData } from "@/types/auth";
 
 export function RegisterForm() {
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
+  const { formData, isLoading, error, handleChange, handleSubmit } =
+    useAuthForm("register");
 
-  async function onSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    setIsLoading(true);
-
-    // Add your registration logic here
-    setTimeout(() => {
-      setIsLoading(false);
-      router.push("/posts");
-    }, 1000);
-  }
+  const registerData = formData as RegisterFormData;
 
   return (
-    <form onSubmit={onSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {error && (
+        <div className="p-3 text-sm text-red-500 bg-red-50 rounded">
+          {error}
+        </div>
+      )}
       <div className="space-y-2">
-        <Label htmlFor="username">ユーザーネーム</Label>
+        <Label htmlFor="name">ユーザーネーム</Label>
         <Input
-          id="username"
+          id="name"
+          name="name"
+          value={registerData.name}
+          onChange={handleChange}
           placeholder="username"
           type="text"
           autoCapitalize="none"
@@ -40,6 +39,9 @@ export function RegisterForm() {
         <Label htmlFor="email">メールアドレス</Label>
         <Input
           id="email"
+          name="email"
+          value={registerData.email}
+          onChange={handleChange}
           placeholder="name@example.com"
           type="email"
           autoCapitalize="none"
@@ -51,7 +53,27 @@ export function RegisterForm() {
       </div>
       <div className="space-y-2">
         <Label htmlFor="password">パスワード</Label>
-        <Input id="password" type="password" disabled={isLoading} required />
+        <Input
+          id="password"
+          name="password"
+          value={registerData.password}
+          onChange={handleChange}
+          type="password"
+          disabled={isLoading}
+          required
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="password_confirmation">パスワード（確認）</Label>
+        <Input
+          id="password_confirmation"
+          name="password_confirmation"
+          value={registerData.password_confirmation}
+          onChange={handleChange}
+          type="password"
+          disabled={isLoading}
+          required
+        />
       </div>
       <Button type="submit" disabled={isLoading} className="w-full">
         {isLoading ? "登録中..." : "アカウント作成"}

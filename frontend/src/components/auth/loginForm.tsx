@@ -1,15 +1,17 @@
 "use client";
 
 import { useAuthForm } from "@/hooks/form/useAuthForm";
-import { useAuth } from "@/hooks/auth/useAuth";
 import { Input } from "@/components/ui/topInput";
 import { Button } from "@/components/ui/topButton";
 import { Label } from "@/components/ui/topLabel";
 import Link from "next/link";
+import { LoginFormData } from "@/types/auth";
 
 export function LoginForm() {
-  const { isLoading, error } = useAuth();
-  const { formData, handleChange, handleSubmit } = useAuthForm();
+  const { formData, isLoading, error, handleChange, handleSubmit } =
+    useAuthForm("login");
+
+  const loginData = formData as LoginFormData;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -23,7 +25,7 @@ export function LoginForm() {
         <Input
           id="email"
           name="email"
-          value={formData.email}
+          value={loginData.email}
           onChange={handleChange}
           placeholder="name@example.com"
           type="email"
@@ -39,7 +41,7 @@ export function LoginForm() {
         <Input
           id="password"
           name="password"
-          value={formData.password}
+          value={loginData.password}
           onChange={handleChange}
           type="password"
           disabled={isLoading}
