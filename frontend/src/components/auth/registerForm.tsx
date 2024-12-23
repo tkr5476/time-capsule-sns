@@ -16,6 +16,7 @@ export function RegisterForm() {
     setIsLoading(true);
 
     // Add your registration logic here
+    
     setTimeout(() => {
       setIsLoading(false);
       router.push("/posts");
