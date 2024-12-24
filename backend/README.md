@@ -1,66 +1,186 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Time Capsule SNS Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## ディレクトリ構成とアーキテクチャ
 
-## About Laravel
+app/
+├── Actions/ # 再利用可能な単一責任のビジネスロジック
+├── Console/ # Artisan コマンド
+├── Exceptions/ # 例外ハンドリング
+├── Http/
+│ ├── Controllers/ # ルートとビジネスロジックの橋渡し
+│ │ ├── Api/ # API 用コントローラー
+│ │ └── Web/ # Web 用コントローラー
+│ ├── Middleware/ # リクエスト/レスポンスの前後処理
+│ ├── Requests/ # フォームリクエストバリデーション
+│ └── Resources/ # API リソース（レスポンス整形）
+├── Models/ # Eloquent モデル
+├── Providers/ # サービスプロバイダー
+├── Repositories/ # データアクセス層
+└── Services/ # 複合的なビジネスロジック
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 各ディレクトリの役割
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Actions/
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+単一の責任を持つ再利用可能なビジネスロジックを配置します。
 
-## Learning Laravel
+app/
+├── Actions/ # 再利用可能な単一責任のビジネスロジック
+├── Console/ # Artisan コマンド
+├── Exceptions/ # 例外ハンドリング
+├── Http/
+│ ├── Controllers/ # ルートとビジネスロジックの橋渡し
+│ │ ├── Api/ # API 用コントローラー
+│ │ └── Web/ # Web 用コントローラー
+│ ├── Middleware/ # リクエスト/レスポンスの前後処理
+│ ├── Requests/ # フォームリクエストバリデーション
+│ └── Resources/ # API リソース（レスポンス整形）
+├── Models/ # Eloquent モデル
+├── Providers/ # サービスプロバイダー
+├── Repositories/ # データアクセス層
+└── Services/ # 複合的なビジネスロジック
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 各ディレクトリの役割
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Actions/
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+単一の責任を持つ再利用可能なビジネスロジックを配置します。
 
-## Laravel Sponsors
+php:time-capsule-sns/backend/README.md
+class CreateUserAction
+{
+public function execute(array $userData): User
+{
+return User::create([
+'name' => $userData['name'],
+'email' => $userData['email']
+]);
+}
+}
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Services/
 
-### Premium Partners
+複数の Actions や Repositories を組み合わせた複合的なビジネスロジックを管理します。
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+php
+class UserRegistrationService
+{
+public function construct(
+private CreateUserAction $createUser,
+private SendWelcomeEmailAction $sendEmail
+) {}
+public function register(array $userData): User
+{
+$user = $this->createUser->execute($userData);
+$this->sendEmail->execute($user);
+return $user;
+}
+}
 
-## Contributing
+### Controllers/
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+-   リクエストの受け取り
+-   バリデーション
+-   Services や Actions の呼び出し
+-   レスポンスの返却
+    を担当します。
 
-## Code of Conduct
+php
+class UserController extends Controller
+{
+public function construct(
+private UserRegistrationService $registrationService
+) {}
+public function store(StoreUserRequest $request)
+{
+$user = $this->registrationService->register(
+$request->validated()
+);
+return new UserResource($user);
+}
+}
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Repositories/
 
-## Security Vulnerabilities
+データアクセスロジックを抽象化し、モデルとの橋渡しを行います。
+php:time-capsule-sns/backend/README.md
+class UserRepository
+{
+public function findByEmail(string $email): ?User
+{
+return User::where('email', $email)->first();
+}
+}
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Models/
 
-## License
+データベースとのマッピングとリレーションを定義します。
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+php
+class User extends Model
+{
+protected $fillable = ['name', 'email'];
+public function posts()
+{
+return $this->hasMany(Post::class);
+}
+}
+
+## アーキテクチャの利点
+
+1. **責任の分離**
+
+    - 各クラスが単一の責任を持つ
+    - コードの保守性が向上
+    - テストが容易
+
+2. **再利用性**
+
+    - Actions による処理の再利用
+    - 重複コードの削減
+
+3. **スケーラビリティ**
+
+    - 機能追加が容易
+    - チーム開発での作業分担が明確
+
+4. **テスタビリティ**
+    - 単体テストが書きやすい
+    - モック化が容易
+
+## 開発ガイドライン
+
+1. **新機能の追加**
+
+    - 単一の処理は`Actions`として実装
+    - 複合的な処理は`Services`として実装
+    - データアクセスは`Repositories`を経由
+
+2. **命名規則**
+
+    - Actions: 動詞 + 名詞 + Action
+    - Services: 名詞 + Service
+    - Repositories: 名詞 + Repository
+
+3. **依存性の注入**
+
+    - コンストラクタインジェクションを優先
+    - インターフェースを活用
+
+4. **バリデーション**
+    - FormRequests を活用
+    - ビジネスロジックと分離
+
+## Laravel の主な機能
+
+-   [シンプルで高速なルーティングエンジン](https://laravel.com/docs/routing)
+-   [強力な依存性注入コンテナ](https://laravel.com/docs/container)
+-   [セッション](https://laravel.com/docs/session)と[キャッシュ](https://laravel.com/docs/cache)の複数バックエンド
+-   [直感的なデータベース ORM](https://laravel.com/docs/eloquent)
+-   [データベースに依存しないスキーママイグレーション](https://laravel.com/docs/migrations)
+-   [堅牢なバックグラウンドジョブ処理](https://laravel.com/docs/queues)
+-   [リアルタイムイベントブロードキャスト](https://laravel.com/docs/broadcasting)
+
+## API 仕様
+
+API の詳細な仕様は[API Documentation](./docs/api.md)を参照してください。
