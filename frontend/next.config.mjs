@@ -2,15 +2,15 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  output: 'standalone',
+  output: "standalone",
   async rewrites() {
     return [
       {
-        source: '/api/:path*',
-        destination: 'http://backend:8000/api/:path*'
-      }
-    ]
-  }
-}
+        source: "/api/:path*",
+        destination: "http://nginx/api/:path*",
+      },
+    ];
+  },
+};
 
-export default nextConfig
+export default nextConfig;
