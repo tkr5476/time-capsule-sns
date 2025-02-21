@@ -19,6 +19,9 @@ public function run(): void
         User::factory()->create([
             'name' => 'テストユーザー',
             'email' => 'test@example.com',
+            'password' => bcrypt('password'),
+            'avatar_path' => null,
+            'bio' => 'テストユーザーです。',
         ]);
 
         $this->call(CategorySeeder::class);
